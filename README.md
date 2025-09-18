@@ -217,7 +217,7 @@ curl -i -X DELETE "https://hlay7s20ee.execute-api.us-east-2.amazonaws.com/dev/st
 - **Operational visibility:** CloudWatch logs (via `AWSLambdaBasicExecutionRole`) are essential for debugging payload shape mismatches and exceptions.
 
 
-### Possible Advancements
+### Advancements
 - **Input validation** with JSON schema or Pydantic.  
 - **Error handling** patterns with structured error objects.  
 - **Auth** via API keys or Cognito for protected endpoints.  
