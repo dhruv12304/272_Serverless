@@ -216,11 +216,8 @@ curl -i -X DELETE "https://hlay7s20ee.execute-api.us-east-2.amazonaws.com/dev/st
 - **Least-privilege thinking:** Starting with broad DynamoDB permissions is convenient for learning; next step is scoping to `StudentRecords` only.
 - **Operational visibility:** CloudWatch logs (via `AWSLambdaBasicExecutionRole`) are essential for debugging payload shape mismatches and exceptions.
 
-### Challenges & fixes  
-- **“Method not allowed”** → Returned `405` for unexpected verbs—helps validate routing.  
-- **Item not found** → Good reminder to return clear `404` vs. `200` with empty bodies.
 
-### Advancements that I could make
+### Possible Advancements
 - **Input validation** with JSON schema or Pydantic.  
 - **Error handling** patterns with structured error objects.  
 - **Auth** via API keys or Cognito for protected endpoints.  
