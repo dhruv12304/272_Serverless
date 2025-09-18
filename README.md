@@ -1,12 +1,10 @@
 # StudentRecords Serverless API (AWS Lambda + API Gateway + DynamoDB)
 
-> **Assignment alignment:** Implements a CRUD API for student records using AWS Lambda, API Gateway, and DynamoDB; includes HTTP testing steps and screenshots section with placeholders; reflection included.
-
 ---
 
 ## Overview
 
-A serverless web API that stores student records in Amazon DynamoDB, with a single Lambda function handling CRUD and Amazon API Gateway exposing `/students` endpoints.
+A serverless web API that stores student records in Amazon DynamoDB, with a Lambda function handling CRUD and Amazon API Gateway exposing `/students` endpoints.
 
 **Region used in example:** `us-east-2` (Ohio).
 
@@ -61,13 +59,11 @@ DynamoDB: StudentRecords
    - Resource: `/students`  
    - Methods (proxy integration **ON**): **POST**, **GET**, **PUT**, **DELETE**  
    - CORS: Enable on `/students` to add `OPTIONS (Mock)`  
-   - Deploy to stage, e.g., `dev` → **Invoke URL**: `https://hlay7s20ee.execute-api.us-east-2.amazonaws.com/dev`
+   - Deploy to stage, `dev` → **Invoke URL**: `https://hlay7s20ee.execute-api.us-east-2.amazonaws.com/dev`
 
 ---
 
 ## Lambda Code (Python)
-
-> Save as `lambda_function.py` in the Lambda console editor (or deploy via zip).
 
 ```python
 import os, json, boto3
@@ -164,9 +160,7 @@ Base URL: `https://hlay7s20ee.execute-api.us-east-2.amazonaws.com/dev`
 
 ---
 
-## Test Commands (single line)
-
-Replace `https://hlay7s20ee.execute-api.us-east-2.amazonaws.com/dev` with your stage URL.
+## Test Commands
 
 **Create**
 ```bash
@@ -190,74 +184,44 @@ curl -i -X DELETE "https://hlay7s20ee.execute-api.us-east-2.amazonaws.com/dev/st
 
 ---
 
-## Screenshots (using your files)
+## Screenshots
 
 Place images in `docs/images/` inside this repo. I pre-filled links below and noted which local files to rename from your set.
 
-1. **API Gateway – Resources & Methods ( `/students` )**  
-   - **Expected path in repo:** `docs/images/api-gateway-resources.png`  
-   - **Rename from your file:** `Screenshot 2025-09-17 at 9.18.31 PM.png`  
-   ![API Gateway Resources](docs/images/api-gateway-resources.png)
+1. **API Gateway – Resources & Methods ( `/students` )**     
+   ![API Gateway Resources](docs/images/resources_methods.png)
 
-2. **API Gateway – Stage with Invoke URL**  
-   - **Expected path in repo:** `docs/images/api-gateway-stage.png`  
-   - **Rename from your file:** `Screenshot 2025-09-17 at 8.08.51 PM.png`  
-   ![API Gateway Stage](docs/images/api-gateway-stage.png)
+2. **API Gateway – Stage with Invoke URL**   
+   ![API Gateway Stage](docs/images/API_Gateway.png)
 
-3. **Terminal – POST success**  
-   - **Expected path in repo:** `docs/images/curl-post.png`  
-   - **Rename from your file:** `Screenshot 2025-09-17 at 9.12.35 PM.png`  
-   ![curl POST](docs/images/curl-post.png)
+3. **Terminal – Consolidated Flow**  
+   ![curl POST](docs/images/CRUD.png)
 
-4. **Terminal – GET success**  
-   - **Expected path in repo:** `docs/images/curl-get.png`  
-   - **Rename from your file:** `Screenshot 2025-09-17 at 9.06.54 PM.png` (or your clean GET-only shot)  
-   ![curl GET](docs/images/curl-get.png)
-
-5. **DynamoDB – Explore items showing sample record**  
-   - **Expected path in repo:** `docs/images/dynamodb-item.png`  
-   - **Rename from your file:** `Screenshot 2025-09-17 at 9.13.28 PM.png`  
-   ![DynamoDB item](docs/images/dynamodb-item.png)
-
-
-## Troubleshooting
-
-- **Missing items in DynamoDB** → Ensure `TABLE_NAME=StudentRecords` env var is set and region matches.  
-- **`{"error":"student_id is required"}`** → Your request body or query string is missing `student_id`.  
-- **CORS errors from browser** → Re-run **Enable CORS** on `/students` and redeploy; keep `OPTIONS (Mock)` method.  
-- **Proxy integration** → Each CRUD method must show **Lambda proxy integration: True**.
+4. **Terminal – POST success**  
+   ![curl POST](docs/images/Post.png)
+   
+6. **DynamoDB – Explore items showing sample record**   
+   ![DynamoDB item](docs/images/DynamoDB_after_post.png)
+   
 
 ---
 
-## Cleanup (avoid costs)
 
-- API Gateway: delete stage & API.  
-- Lambda: delete the function.  
-- CloudWatch Logs: delete log group `/aws/lambda/StudentRecordHandler` (optional).  
-- DynamoDB: delete `StudentRecords`.  
-- IAM: remove or delete the dedicated role if unused.
+## Reflections
 
----
-
-## Reflection
-
-### What I built
-A serverless CRUD API using AWS managed services: API Gateway, Lambda, and DynamoDB. The design favors simplicity, stateless compute, and pay-per-use storage—perfect for spiky classroom workloads.
-
-### Core learning opportunities
+### Learning opportunities
 - **Service wiring & event flow:** Understanding how API Gateway’s **Lambda proxy integration** shapes the `event` and why the function must parse `httpMethod`, `queryStringParameters`, and `body`.
-- **Data modeling in DynamoDB:** Choosing a single-partition key (`student_id`) is enough for CRUD; recognizes how access patterns drive table design.
+- **Data modeling in DynamoDB:** Choosing a single-partition key (`student_id`) is enough for CRUD;
 - **CORS in practice:** Distinguishing **preflight (`OPTIONS`)** from actual requests, and why API Gateway’s **Mock OPTIONS** plus Lambda’s headers make browser calls succeed.
 - **Consistency across regions:** All resources must live in the same region; otherwise APIs call the wrong function or tables appear empty.
 - **Least-privilege thinking:** Starting with broad DynamoDB permissions is convenient for learning; next step is scoping to `StudentRecords` only.
 - **Operational visibility:** CloudWatch logs (via `AWSLambdaBasicExecutionRole`) are essential for debugging payload shape mismatches and exceptions.
 
-### Challenges & fixes
-- **Multiline curl dropped bodies** → Use **single-line** commands so JSON reaches Lambda.  
+### Challenges & fixes  
 - **“Method not allowed”** → Returned `405` for unexpected verbs—helps validate routing.  
 - **Item not found** → Good reminder to return clear `404` vs. `200` with empty bodies.
 
-### What I’d improve next
+### Advancements that I could make
 - **Input validation** with JSON schema or Pydantic.  
 - **Error handling** patterns with structured error objects.  
 - **Auth** via API keys or Cognito for protected endpoints.  
@@ -265,7 +229,3 @@ A serverless CRUD API using AWS managed services: API Gateway, Lambda, and Dynam
 - **Automated tests** (pytest) that hit a **local DynamoDB** or use moto for unit tests.
 
 ---
-
-## License
-
-Educational use.
