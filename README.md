@@ -186,7 +186,6 @@ curl -i -X DELETE "https://hlay7s20ee.execute-api.us-east-2.amazonaws.com/dev/st
 
 ## Screenshots
 
-Place images in `docs/images/` inside this repo. I pre-filled links below and noted which local files to rename from your set.
 
 1. **API Gateway – Resources & Methods ( `/students` )**     
    ![API Gateway Resources](./images/resources_methods.png)
