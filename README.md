@@ -189,19 +189,19 @@ curl -i -X DELETE "https://hlay7s20ee.execute-api.us-east-2.amazonaws.com/dev/st
 Place images in `docs/images/` inside this repo. I pre-filled links below and noted which local files to rename from your set.
 
 1. **API Gateway – Resources & Methods ( `/students` )**     
-   ![API Gateway Resources](docs/images/resources_methods.png)
+   ![API Gateway Resources](./images/resources_methods.png)
 
 2. **API Gateway – Stage with Invoke URL**   
-   ![API Gateway Stage](docs/images/API_Gateway.png)
+   ![API Gateway Stage](./images/API_Gateway.png)
 
 3. **Terminal – Consolidated Flow**  
-   ![curl POST](docs/images/CRUD.png)
+   ![curl POST](./images/CRUD.png)
 
 4. **Terminal – POST success**  
-   ![curl POST](docs/images/Post.png)
+   ![curl POST](./images/Post.png)
    
 6. **DynamoDB – Explore items showing sample record**   
-   ![DynamoDB item](docs/images/DynamoDB_after_post.png)
+   ![DynamoDB item](./images/DynamoDB_after_post.png)
    
 
 ---
